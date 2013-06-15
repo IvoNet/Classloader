@@ -12,12 +12,9 @@ import java.net.URL;
 public class Main {
 
     public Main() throws ClassNotFoundException, IllegalAccessException, InstantiationException, MalformedURLException {
-//        IvoNetClassLoader ivoNetClassLoader = new IvoNetClassLoader(this.getClass().getClassLoader());
-//        final Object ivoNet = ivoNetClassLoader.loadClass("IvoNet").newInstance();
-//        System.out.println("ivoNet = " + ivoNet);
 
         IvoNetClassLoader urlcl = new IvoNetClassLoader(new URL[]{
-                new URL("file:///Users/ivonet/dev/OrdinaKlasDev/dev/Classloader/ClassesNotOnClassPath/")});
+                new URL("file:///Users/ivonet/dev/Classloader/ClassesNotOnClassPath/")});
         Class<?> classS = urlcl.loadClass("ivonet.IvoNet");
         for (Method field : classS.getMethods()) {
             System.out.println(field.getName());
