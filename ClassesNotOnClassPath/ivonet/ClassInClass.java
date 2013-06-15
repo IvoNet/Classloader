@@ -12,6 +12,10 @@ public class ClassInClass {
 
     }
 
+    public IvoNet getIvoNet() {
+        return ivoNet;
+    }
+
 
     @Override
     public String toString() {

@@ -59,6 +59,7 @@ public class FirstTry {
     }
 
     public static void main(final String[] args) throws Exception {
+        System.out.println("First Try");
         new FirstTry();
     }
 }

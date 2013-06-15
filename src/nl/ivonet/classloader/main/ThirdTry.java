@@ -1,13 +1,13 @@
 package nl.ivonet.classloader.main;
 
+import ivonet.Third;
 import nl.ivonet.classloader.trial.IvoNetClassLoader;
-import nl.ivonet.classloader.trial.IvoNetClassLoader2;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * This ClassLoader trial illustrates the workings of the Classloader with a parent Classloader.
+ * This ClassLoader trial illustrates the workings of two completely separate Classloaders.
  * <p/>
  * Howto get it to work:
  * <ul>
@@ -36,36 +36,45 @@ import java.net.URL;
  * Note that all the classes are going through the IvoNetClassLoader2 but first loading is delegated
  * to its parent and the that's why you will see two different classloaders in the last step of this trial.
  */
-public class SecondTry {
+public class ThirdTry {
+
+    /**
+     * Note that this path now points to the same location as the output folder
+     * where the classes are compiled in the IDE that is normally on the classpath!
+     * I use
+     */
     private static final String CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH =
-            "file:///Users/ivonet/dev/Classloader/ClassesNotOnClassPath/";
-    private static final String CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH2 =
-            "file:///Users/ivonet/dev/Classloader/ClassesNotOnClassPath2/";
+            "file:///Users/ivonet/dev/Classloader/out/production/Classloader/";
 
 
-    public SecondTry()
+    public ThirdTry()
             throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
+        //The Third class that is on the classpath
+        Third third = new Third();
+        System.out
+                .println("Just instantiated the 'Third' class by using a new statement.\nIt is on the normal "
+                         + "classpath and is therefore loaded by:\nsun.misc.Launcher$AppClassLoader.");
+
+        //Note: I've set the parent classloader to null so it won't escalate the search
         final IvoNetClassLoader ivoNetClassLoader = new IvoNetClassLoader(new URL[]{
-                new URL(CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH)});
+                new URL(CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH)}, null);
 
-        //This Classloader has the IvoNetClassLoader as a parent!
-        final IvoNetClassLoader2 ivoNetClassLoader2 = new IvoNetClassLoader2(new URL[]{
-                new URL(CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH2)}, ivoNetClassLoader);
+        final Class<?> thirdByAnotherClassloader = ivoNetClassLoader.loadClass("ivonet.Third");
+        final Object thirdByAnotherClassloaderInstance = thirdByAnotherClassloader.newInstance();
 
-        final Class<?> classInClass2 = ivoNetClassLoader2.loadClass("ivonet.ClassInClass");
-
-        final Object classInClassInstance2 = classInClass2.newInstance();
-        System.out.println("classInClassInstance2 = " + classInClassInstance2);
-
-        final Class<?> ivoNet = ivoNetClassLoader2.loadClass("ivonet.IvoNet");
-        final Object ivoNetInstance = ivoNet.newInstance();
-        System.out.println("ivoNetInstance = " + ivoNetInstance);
-
+        try {
+            third = (Third) thirdByAnotherClassloaderInstance;
+        } catch (ClassCastException e) {
+            System.out.println(
+                    "I've just tried to cast the Third loaded by IvoNetClassLoader\nto Third on the classpath and "
+                    + "gotten a ClassCastException with message:\n"
+                    + e.getMessage() + "\nFunny isn't it?!\nEspecially because It is exactly the same class!");
+        }
     }
 
     public static void main(final String[] args) throws Exception {
-        System.out.println("Second Try");
-        new SecondTry();
+        System.out.println("Third Try");
+        new ThirdTry();
     }
 }
