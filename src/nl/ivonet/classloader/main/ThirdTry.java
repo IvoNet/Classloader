@@ -11,39 +11,19 @@ import java.net.URL;
  * <p/>
  * Howto get it to work:
  * <ul>
- *     <li>First adjust the CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH and
- *     CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH2 constants to point to the correct locations</li>
- *     <li>Open a console in the ClassesNotOnClassPath folder of this project</li>
- *     <li>Command: rm -f ivonet/*.class OR del ivonet\*.class</li>
- *     <li>Open a console in the ClassesNotOnClassPath2 folder of this project</li>
- *     <li>Command: rm -f ivonet/*.class OR del ivonet\*.class</li>
+ *     <li>First adjust the CLASSLOADER_CLASSES_ON_CLASS_PATH to point to the compile path of your IDE</li>
  *     <li>Run this class</li>
- *     <li>You should get ClassNotFoundExceptions</li>
- *     <li>Open a console in the ClassesNotOnClassPath folder of this project</li>
- *     <li>perform command: javac ivonet/*.java</li>
- *     <li>Run this class' main method</li>
- *     <li>Both the ClassInClass and the IvoNet class should be loaded by IvoNetClassLoader!</li>
- *     <li>Open a console in the ClassesNotOnClassPath folder of this project</li>
- *     <li>Command: rm -f ivonet/ClassInClass.class OR del ivonet\ClassInClass.class</li>
- *     <li>Open a console in the ClassesNotOnClassPath2 folder of this project</li>
- *     <li>Command: javac ivonet/ClassInClass.class</li>
- *     <li>Run this class</li>
- *     <li>Now the IvoNet class should be loaded by the IvoNetClassLoader,
- *     but the ClassInClass class should be loaded by the IvoNetClassLoader2
- *     even though ivonet/IvoNet.class also exists in the ClassesNotOnClassPath2</li>
+ *     <li>You should get a nice output message. See if you can explain why all this happens...</li>
  * </ul>
- *
- * Note that all the classes are going through the IvoNetClassLoader2 but first loading is delegated
- * to its parent and the that's why you will see two different classloaders in the last step of this trial.
  */
 public class ThirdTry {
 
     /**
      * Note that this path now points to the same location as the output folder
      * where the classes are compiled in the IDE that is normally on the classpath!
-     * I use
+     * I use IntelliJ so the path will be something like the one below.
      */
-    private static final String CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH =
+    private static final String CLASSLOADER_CLASSES_ON_CLASS_PATH =
             "file:///Users/ivonet/dev/Classloader/out/production/Classloader/";
 
 
@@ -58,7 +38,7 @@ public class ThirdTry {
 
         //Note: I've set the parent classloader to null so it won't escalate the search
         final IvoNetClassLoader ivoNetClassLoader = new IvoNetClassLoader(new URL[]{
-                new URL(CLASSLOADER_CLASSES_NOT_ON_CLASS_PATH)}, null);
+                new URL(CLASSLOADER_CLASSES_ON_CLASS_PATH)}, null);
 
         final Class<?> thirdByAnotherClassloader = ivoNetClassLoader.loadClass("ivonet.Third");
         final Object thirdByAnotherClassloaderInstance = thirdByAnotherClassloader.newInstance();
