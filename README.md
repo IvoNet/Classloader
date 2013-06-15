@@ -24,6 +24,7 @@ Illustrates the workings of the Classloader with a parent Classloader.
 ## ThirdTry ##
 
 Illustrates the workings of two completely separate Classloaders.
+One classloader without parent and therefore without delegation
 
 ## Todo / Whishes ##
 
