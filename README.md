@@ -36,9 +36,7 @@ One classloader without parent and therefore without delegation
 
 ## Discussion ##
 
-If you have more ideas on what to try please contact me here:
-
-https://www.ivonet.nl/home/contact
+contact through twitter @ivonet
 
 ## Some links ##
 
