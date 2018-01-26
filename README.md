@@ -42,7 +42,7 @@ contact through twitter @ivonet
 
 One can get a realy good document here about classloaders at the link below but you have to register first.
 
-* http://zeroturnaround.com/rebellabs/devs/do-you-really-get-classloaders/
+* https://zeroturnaround.com/rebellabs/rebel-labs-tutorial-do-you-really-get-classloaders/4/
 
 A video about classloaders can be found here:
 
